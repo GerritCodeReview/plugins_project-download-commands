@@ -22,6 +22,23 @@
       "revId": "ac412eb5a1702adaa5b4be1d93521000f4ea10ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03174a8c_c5cc9a71",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/download/command/project/DownloadCommandUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-11-30T21:31:03Z",
+      "side": 1,
+      "message": "Instead of installing an instance for every project at startup, why not install one instance that dynamically looks up the data for the given project?\n\nThis avoids loading every project at startup, and avoids needing to mess with internals of DynamicMap that plugins aren\u0027t supposed to know about.",
+      "revId": "ac412eb5a1702adaa5b4be1d93521000f4ea10ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
