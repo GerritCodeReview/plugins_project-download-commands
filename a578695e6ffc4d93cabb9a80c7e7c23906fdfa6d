@@ -22,6 +22,30 @@
       "revId": "a578695e6ffc4d93cabb9a80c7e7c23906fdfa6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_c25922ec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/download/command/project/DownloadCommandUpdater.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-01T12:51:32Z",
+      "side": 1,
+      "message": "Actually I think I still had an old version of the plugin installed when I was testing...",
+      "parentUuid": "a3cbde64_a25c1edd",
+      "range": {
+        "startLine": 131,
+        "startChar": 46,
+        "endLine": 131,
+        "endChar": 71
+      },
+      "revId": "a578695e6ffc4d93cabb9a80c7e7c23906fdfa6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
