@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "83d09a10_e1cb8636",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-01T10:28:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3cbde64_e2faa691",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 7
+      },
+      "revId": "ac412eb5a1702adaa5b4be1d93521000f4ea10ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03174a8c_c5cc9a71",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/download/command/project/DownloadCommandUpdater.java",
         "patchSetId": 1
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "Ugh, right. You can only provide one command. That wouldn\u0027t work.",
       "parentUuid": "a3cbde64_e27d4643",
+      "revId": "ac412eb5a1702adaa5b4be1d93521000f4ea10ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d09a10_01c94a3e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/download/command/project/DownloadCommandUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-01T10:28:35Z",
+      "side": 1,
+      "message": "On startup the download commands are now installed asynchronously.",
+      "parentUuid": "231a8eb4_06dcfafd",
       "revId": "ac412eb5a1702adaa5b4be1d93521000f4ea10ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
