@@ -39,6 +39,24 @@
       "revId": "ac412eb5a1702adaa5b4be1d93521000f4ea10ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3cbde64_e27d4643",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/download/command/project/DownloadCommandUpdater.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-12-01T00:08:48Z",
+      "side": 1,
+      "message": "\u003e Instead of installing an instance for every project at \n \u003e startup, why not install one instance that dynamically \n \u003e looks up the data for the given project?\n\nI\u0027m not sure if I\u0027m getting how this would work. One instance of DownloadCommand means it\u0027s one command which is bound to one name. How could one instance return many commands with different names that were dynamically looked up?\n\n \u003e This avoids loading every project at startup\n\nYes, this is ugly. In the next commit I at least wanted to make this asyncronous to not delay the server startup.\n\n \u003e and avoids needing to mess with internals of DynamicMap \n \u003e that plugins aren\u0027t supposed to know about.\n\nYes, I noticed that this is a PrivateInternal_DoNotUseMe class, but it provided it functionality I was looking for :-/",
+      "parentUuid": "03174a8c_c5cc9a71",
+      "revId": "ac412eb5a1702adaa5b4be1d93521000f4ea10ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
