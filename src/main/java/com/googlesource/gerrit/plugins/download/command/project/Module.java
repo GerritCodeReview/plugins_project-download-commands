@@ -15,21 +15,16 @@
 package com.googlesource.gerrit.plugins.download.command.project;
 
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.PluginLifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.inject.AbstractModule;
 
 class Module extends AbstractModule {
   @Override
   protected void configure() {
-    install(new LifecycleModule() {
-      @Override
-      protected void configure() {
-        listener().to(DownloadCommandUpdater.class);
-      }
-    });
-
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
+        .to(DownloadCommandUpdater.class);
+    DynamicSet.bind(binder(), PluginLifecycleListener.class)
         .to(DownloadCommandUpdater.class);
   }
 }

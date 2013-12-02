@@ -18,7 +18,7 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
-import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.events.MyPluginLifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -44,8 +44,8 @@ import java.io.IOException;
 import java.util.Map;
 
 @Singleton
-public class DownloadCommandUpdater implements GitReferenceUpdatedListener,
-    LifecycleListener {
+public class DownloadCommandUpdater extends MyPluginLifecycleListener implements
+    GitReferenceUpdatedListener {
   private static final Logger log = LoggerFactory
       .getLogger(DownloadCommandUpdater.class);
 
@@ -62,6 +62,7 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener,
       DynamicMap<DownloadCommand> downloadCommands,
       MetaDataUpdate.Server metaDataUpdateFactory,
       ProjectCache projectCache, WorkQueue queue) {
+    super(pluginName);
     this.pluginName = pluginName;
     this.downloadCommands = downloadCommands;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -72,7 +73,7 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener,
   }
 
   @Override
-  public void start() {
+  public void onLoad() {
     for (Project.NameKey p : projectCache.all()) {
       ProjectState projectState = projectCache.get(p);
       if (projectState != null) {
@@ -82,7 +83,12 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener,
   }
 
   @Override
-  public void stop() {
+  public void onUnload() {
+    for (RegistrationHandle rh : registrationHandles.values()) {
+      rh.remove();
+    }
+    registrationHandles.clear();
+    projectDownloadCommands.clear();
   }
 
   @Override
