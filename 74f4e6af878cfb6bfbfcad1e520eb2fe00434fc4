@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7b5ad369_fa97c939",
+        "filename": "BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-16T06:58:50Z",
+      "side": 1,
+      "message": "Not strictly, I just added it to get the same version as with the old maven build.",
+      "parentUuid": "bebfd9c0_f4c33831",
+      "revId": "74f4e6af878cfb6bfbfcad1e520eb2fe00434fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bebfd9c0_14f0b492",
         "filename": "BUCK",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2016-08-12T14:09:06Z",
       "side": 1,
       "message": "Do we usually hard code this?  Seems to me it\u0027s just another place that needs to be edited when updating the API version.",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "74f4e6af878cfb6bfbfcad1e520eb2fe00434fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b5ad369_9a8a0d10",
+        "filename": "BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-08-16T06:58:50Z",
+      "side": 1,
+      "message": "I found in many other plugins, but from my first test build without this line I guess it is not strictly needed. I\u0027ll remove it.",
+      "parentUuid": "bebfd9c0_14f0b492",
       "range": {
         "startLine": 12,
         "startChar": 4,
