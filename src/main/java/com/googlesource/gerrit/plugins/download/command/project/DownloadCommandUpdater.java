@@ -28,7 +28,6 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -41,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.Map;
 
 @Singleton
@@ -55,7 +55,7 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener,
   private final ProjectCache projectCache;
   private final Map<String, ProjectDownloadCommand> projectDownloadCommands;
   private final Map<String, RegistrationHandle> registrationHandles;
-  private final Executor executor;
+  private final ScheduledThreadPoolExecutor executor;
 
   @Inject
   DownloadCommandUpdater(@PluginName String pluginName,
