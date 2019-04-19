@@ -48,6 +48,7 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener, Life
   private final String pluginName;
   private final DynamicMap<DownloadCommand> downloadCommands;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
+  private final ProjectConfig.Factory projectConfigFactory;
   private final ProjectCache projectCache;
   private final Map<String, ProjectDownloadCommand> projectDownloadCommands;
   private final Map<String, RegistrationHandle> registrationHandles;
@@ -58,11 +59,13 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener, Life
       @PluginName String pluginName,
       DynamicMap<DownloadCommand> downloadCommands,
       MetaDataUpdate.Server metaDataUpdateFactory,
+      ProjectConfig.Factory projectConfigFactory,
       ProjectCache projectCache,
       WorkQueue queue) {
     this.pluginName = pluginName;
     this.downloadCommands = downloadCommands;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.projectConfigFactory = projectConfigFactory;
     this.projectCache = projectCache;
     this.projectDownloadCommands = Maps.newHashMap();
     this.registrationHandles = Maps.newHashMap();
@@ -103,7 +106,7 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener, Life
       Project.NameKey p = new Project.NameKey(event.getProjectName());
       try {
         ProjectConfig oldCfg =
-            ProjectConfig.read(
+            projectConfigFactory.read(
                 metaDataUpdateFactory.create(p), ObjectId.fromString(event.getOldObjectId()));
         PluginConfig oldPluginCfg = oldCfg.getPluginConfig(pluginName);
         for (String name : oldPluginCfg.getNames()) {
@@ -111,7 +114,7 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener, Life
         }
 
         ProjectConfig newCfg =
-            ProjectConfig.read(
+            projectConfigFactory.read(
                 metaDataUpdateFactory.create(p), ObjectId.fromString(event.getNewObjectId()));
         PluginConfig newPluginCfg = newCfg.getPluginConfig(pluginName);
         for (String name : newPluginCfg.getNames()) {
