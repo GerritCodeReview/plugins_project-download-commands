@@ -22,14 +22,14 @@ import com.google.inject.AbstractModule;
 class Module extends AbstractModule {
   @Override
   protected void configure() {
-    install(new LifecycleModule() {
-      @Override
-      protected void configure() {
-        listener().to(DownloadCommandUpdater.class);
-      }
-    });
+    install(
+        new LifecycleModule() {
+          @Override
+          protected void configure() {
+            listener().to(DownloadCommandUpdater.class);
+          }
+        });
 
-    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
-        .to(DownloadCommandUpdater.class);
+    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(DownloadCommandUpdater.class);
   }
 }

@@ -21,15 +21,13 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-
 import java.util.Map;
 
 public class ProjectDownloadCommand extends DownloadCommand {
   private final ProjectCache projectCache;
   private final Map<Project.NameKey, String> commands;
 
-  ProjectDownloadCommand(ProjectCache projectCache, Project.NameKey project,
-      String command) {
+  ProjectDownloadCommand(ProjectCache projectCache, Project.NameKey project, String command) {
     this.projectCache = projectCache;
     this.commands = Maps.newHashMap();
     add(project, command);
@@ -63,9 +61,11 @@ public class ProjectDownloadCommand extends DownloadCommand {
       }
     }
     if (command != null) {
-      command = command.replaceAll("\\$\\{ref\\}", ref)
-          .replaceAll("\\$\\{url\\}", scheme.getUrl(project))
-          .replaceAll("\\$\\{project\\}", project);
+      command =
+          command
+              .replaceAll("\\$\\{ref\\}", ref)
+              .replaceAll("\\$\\{url\\}", scheme.getUrl(project))
+              .replaceAll("\\$\\{project\\}", project);
     }
     return Strings.emptyToNull(command);
   }

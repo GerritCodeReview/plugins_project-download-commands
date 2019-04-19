@@ -33,21 +33,17 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.Map;
-
 @Singleton
-public class DownloadCommandUpdater implements GitReferenceUpdatedListener,
-    LifecycleListener {
-  private static final Logger log = LoggerFactory
-      .getLogger(DownloadCommandUpdater.class);
+public class DownloadCommandUpdater implements GitReferenceUpdatedListener, LifecycleListener {
+  private static final Logger log = LoggerFactory.getLogger(DownloadCommandUpdater.class);
 
   private final String pluginName;
   private final DynamicMap<DownloadCommand> downloadCommands;
@@ -58,10 +54,12 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener,
   private final ScheduledExecutorService executor;
 
   @Inject
-  DownloadCommandUpdater(@PluginName String pluginName,
+  DownloadCommandUpdater(
+      @PluginName String pluginName,
       DynamicMap<DownloadCommand> downloadCommands,
       MetaDataUpdate.Server metaDataUpdateFactory,
-      ProjectCache projectCache, WorkQueue queue) {
+      ProjectCache projectCache,
+      WorkQueue queue) {
     this.pluginName = pluginName;
     this.downloadCommands = downloadCommands;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -73,22 +71,21 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener,
 
   @Override
   public void start() {
-    executor.submit(new Runnable() {
-      @Override
-      public void run() {
-        for (Project.NameKey p : projectCache.all()) {
-          ProjectState projectState = projectCache.get(p);
-          if (projectState != null) {
-            PluginConfig cfg =
-                projectState.getConfig().getPluginConfig(pluginName);
-            for (String name : cfg.getNames()) {
-              installCommand(projectState.getProject().getNameKey(), name,
-                  cfg.getString(name));
+    executor.submit(
+        new Runnable() {
+          @Override
+          public void run() {
+            for (Project.NameKey p : projectCache.all()) {
+              ProjectState projectState = projectCache.get(p);
+              if (projectState != null) {
+                PluginConfig cfg = projectState.getConfig().getPluginConfig(pluginName);
+                for (String name : cfg.getNames()) {
+                  installCommand(projectState.getProject().getNameKey(), name, cfg.getString(name));
+                }
+              }
             }
           }
-        }
-      }
-    });
+        });
   }
 
   @Override
@@ -106,37 +103,39 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener,
       Project.NameKey p = new Project.NameKey(event.getProjectName());
       try {
         ProjectConfig oldCfg =
-            ProjectConfig.read(metaDataUpdateFactory.create(p),
-                ObjectId.fromString(event.getOldObjectId()));
+            ProjectConfig.read(
+                metaDataUpdateFactory.create(p), ObjectId.fromString(event.getOldObjectId()));
         PluginConfig oldPluginCfg = oldCfg.getPluginConfig(pluginName);
         for (String name : oldPluginCfg.getNames()) {
           removeCommand(p, name);
         }
 
         ProjectConfig newCfg =
-            ProjectConfig.read(metaDataUpdateFactory.create(p),
-                ObjectId.fromString(event.getNewObjectId()));
+            ProjectConfig.read(
+                metaDataUpdateFactory.create(p), ObjectId.fromString(event.getNewObjectId()));
         PluginConfig newPluginCfg = newCfg.getPluginConfig(pluginName);
         for (String name : newPluginCfg.getNames()) {
           installCommand(p, name, newPluginCfg.getString(name));
         }
       } catch (IOException | ConfigInvalidException e) {
-        log.error("Failed to update download commands for project "
-            + p.get() + " on update of " + RefNames.REFS_CONFIG, e);
+        log.error(
+            "Failed to update download commands for project "
+                + p.get()
+                + " on update of "
+                + RefNames.REFS_CONFIG,
+            e);
       }
     }
   }
 
-  private void installCommand(final Project.NameKey p, String name,
-      final String command) {
+  private void installCommand(final Project.NameKey p, String name, final String command) {
     ProjectDownloadCommand dc = projectDownloadCommands.get(name);
     if (dc != null) {
       dc.add(p, command);
     } else {
       dc = new ProjectDownloadCommand(projectCache, p, command);
       projectDownloadCommands.put(name, dc);
-      registrationHandles.put(name,
-          map().put(pluginName, name.replaceAll("-", " "), provider(dc)));
+      registrationHandles.put(name, map().put(pluginName, name.replaceAll("-", " "), provider(dc)));
     }
   }
 
