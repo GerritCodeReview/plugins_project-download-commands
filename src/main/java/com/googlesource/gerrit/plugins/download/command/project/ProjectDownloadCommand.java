@@ -47,7 +47,7 @@ public class ProjectDownloadCommand extends DownloadCommand {
 
   @Override
   public String getCommand(DownloadScheme scheme, String project, String ref) {
-    Project.NameKey projectName = new Project.NameKey(project);
+    Project.NameKey projectName = Project.nameKey(project);
     String command = commands.get(projectName);
     if (command == null) {
       ProjectState projectState = projectCache.get(projectName);

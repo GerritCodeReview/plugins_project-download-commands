@@ -103,7 +103,7 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener, Life
   @Override
   public void onGitReferenceUpdated(Event event) {
     if (event.getRefName().equals(RefNames.REFS_CONFIG)) {
-      Project.NameKey p = new Project.NameKey(event.getProjectName());
+      Project.NameKey p = Project.nameKey(event.getProjectName());
       try {
         ProjectConfig oldCfg =
             projectConfigFactory.read(
