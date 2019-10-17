@@ -16,9 +16,9 @@ package com.googlesource.gerrit.plugins.download.command.project;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Map;

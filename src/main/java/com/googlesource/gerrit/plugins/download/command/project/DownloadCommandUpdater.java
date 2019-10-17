@@ -15,6 +15,8 @@
 package com.googlesource.gerrit.plugins.download.command.project;
 
 import com.google.common.collect.Maps;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
@@ -22,8 +24,6 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
