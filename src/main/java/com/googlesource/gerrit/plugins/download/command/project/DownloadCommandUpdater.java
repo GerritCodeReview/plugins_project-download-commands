@@ -35,6 +35,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -79,11 +80,12 @@ public class DownloadCommandUpdater implements GitReferenceUpdatedListener, Life
           @Override
           public void run() {
             for (Project.NameKey p : projectCache.all()) {
-              ProjectState projectState = projectCache.get(p);
-              if (projectState != null) {
-                PluginConfig cfg = projectState.getConfig().getPluginConfig(pluginName);
+              Optional<ProjectState> projectState = projectCache.get(p);
+              if (projectState.isPresent()) {
+                PluginConfig cfg = projectState.get().getConfig().getPluginConfig(pluginName);
                 for (String name : cfg.getNames()) {
-                  installCommand(projectState.getProject().getNameKey(), name, cfg.getString(name));
+                  installCommand(
+                      projectState.get().getProject().getNameKey(), name, cfg.getString(name));
                 }
               }
             }

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Map;
+import java.util.Optional;
 
 public class ProjectDownloadCommand extends DownloadCommand {
   private final ProjectCache projectCache;
@@ -50,9 +51,9 @@ public class ProjectDownloadCommand extends DownloadCommand {
     Project.NameKey projectName = Project.nameKey(project);
     String command = commands.get(projectName);
     if (command == null) {
-      ProjectState projectState = projectCache.get(projectName);
-      if (projectState != null) {
-        for (ProjectState parent : projectState.parents()) {
+      Optional<ProjectState> projectState = projectCache.get(projectName);
+      if (projectState.isPresent()) {
+        for (ProjectState parent : projectState.get().parents()) {
           command = commands.get(parent.getProject().getNameKey());
           if (command != null) {
             break;
